@@ -1,15 +1,12 @@
 // Factory func for gameboard
 function Gameboard() {
     // Define rows and fill their columns with cells
-    let row0, row1, row2;
-    row0 = row1 = row2 = [Cell(), Cell(), Cell()];
+    let row0 = [Cell(), Cell(), Cell()];
+    let row1 = [Cell(), Cell(), Cell()];
+    let row2 = [Cell(), Cell(), Cell()];
 
     // Put rows inside gameboard
-    const gameboard = [
-        row0,
-        row1,
-        row2
-    ];
+    const gameboard = [row0, row1, row2];
 
     return { gameboard };
 
@@ -17,10 +14,10 @@ function Gameboard() {
 
 // Factory func for cell
 function Cell() {
-    let value = "blank"
+    let value = "blank";
 
-    function getValue() {return  value;}
-    function changeValue(nValue) {value = nValue}
+    function getValue() {return  value};
+    function changeValue(nValue) {value = nValue};
 
     return { getValue, changeValue };
 }
@@ -38,14 +35,15 @@ function GameController() {
     }
 
     // Pick the value for a cell
-    function pickCell(cell) {
-        if (cell.value === "blank") {
-            cell.value = currentPlayer === 1 ? "X" : "O";
-            changePlayer();
-        } else {
-            console.log("Cell already filled, try another.")
-        }
-    }
+    //function fillCell(cell) {
+    //   if (cell.value === "blank") {
+    //        cell.value = currentPlayer === 1 ? "X" : "O";
+    //        changePlayer();
+    //        drawBoard();
+    //    } else {
+    //        console.log("Cell already filled, try another.")
+    //   }
+    //}
 
     // Draw the board for the game
     function drawBoard() {
@@ -75,10 +73,29 @@ function GameController() {
         console.log(visualBoard);
     }
 
-    return { drawBoard }
+    function pickCell(x, y) {
+        let row = board.gameboard[y-1];
+        let cell = row[x-1];
+        
+        if (cell.getValue() === "blank") {
+
+            cell.changeValue(currentPlayer === 1 ? "X" : "O");
+            changePlayer();
+            drawBoard();
+
+        } else {
+
+            console.log("Cell already filled, try another.")
+
+        }
+        
+    }
+
+    drawBoard();
+
+    return { pickCell }
 
 }
 
 const board = GameController();
-board.drawBoard();
 
