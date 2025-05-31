@@ -81,19 +81,35 @@ function GameController() {
         
     }
 
+    // Look for winning pattern and display winner
     function lookForWin() {
         const validRow = validRowCombo();
+        const validCol = validColumnCombo();
+        const validDiag = validDiagonalCombo();
 
-        if (validRow) {
+        if (validRow || validCol || validDiag) {
             if (validRow === "X") {
                 console.log("Player 1 wins!");
-            } else {
+            } else if (validRow === "O") {
+                console.log("Player 2 wins!");
+            }
+
+            if (validCol === "X") {
+                console.log("Player 1 wins!");
+            } else if (validCol === "O") {
+                console.log("Player 2 wins!");
+            }
+
+            if (validDiag === "X") {
+                console.log("Player 1 wins!");
+            } else if (validDiag === "O") {
                 console.log("Player 2 wins!");
             }
             
         }
     }
 
+    // Evaluate pattern for each row and determine if there is a winner. If so, return winner
     function validRowCombo() {
 
         for (let i = 0; i < board.gameboard.length; i++) {
@@ -102,9 +118,10 @@ function GameController() {
             let counterO = 0;
 
             for (let j = 0; j < row.length; j++) {
-                if (row[j].getValue() === "X") {
+                const col = row[j];
+                if (col.getValue() === "X") {
                     ++counterX;
-                } else if (row[j].getValue() === "O") {
+                } else if (col.getValue() === "O") {
                     ++counterO
                 }
             }
@@ -116,16 +133,75 @@ function GameController() {
         }
 
         return false;
+
     }
 
+    // Evaluate pattern for each column and determine if there is a winner. If so, return winner
     function validColumnCombo() {
 
+        for (let i = 0; i < board.gameboard[0].length; i++) {
+            const col = board.gameboard[0][i];
+            let counterX = 0;
+            let counterO = 0;
+
+            for (let j = 0; j < board.gameboard[0].length; j++) {
+                const cell = board.gameboard[j][i]
+                if (cell.getValue() === "X") {
+                    ++counterX;
+                } else if (cell.getValue() === "O") {
+                    ++counterO
+                }
+            }
+
+            if (counterX === 3 || counterO === 3) {
+                return col.getValue();
+            }
+
+        }
+
+        return false;
+        
     }
 
+    // Evaluate pattern for diagonals and determine if there is a winner. If so, return winner
     function validDiagonalCombo() {
 
+        const xy = board.gameboard;
+
+        let returnValue = false;
+
+        function diagOne(val) {
+            if (xy[0][0].getValue() === val && xy[1][1].getValue() === val && xy[2][2].getValue() === val) {
+                return val;
+            } else {
+                return false;
+            }
+        }
+
+        function diagTwo(val) {
+            if (xy[2][0].getValue() === val && xy[1][1].getValue() === val && xy[0][2].getValue() === val) {
+                return val;
+            } else {
+                return false;
+            }
+        }
+
+        returnValue = diagOne("X")
+        if (returnValue == false) {
+            returnValue = diagOne("O")
+        }
+        if (returnValue == false) {
+            returnValue = diagTwo("X")
+        }
+        if (returnValue == false) {
+            returnValue = diagTwo("O")
+        }
+
+        return returnValue;
+        
     }
 
+    // Draw the board
     drawBoard();
 
     return { pickCell }
