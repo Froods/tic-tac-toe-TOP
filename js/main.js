@@ -31,19 +31,7 @@ function GameController() {
     // Change the player
     function changePlayer() {
         currentPlayer = currentPlayer === 1 ? 2 : 1;
-        console.log(currentPlayer);
     }
-
-    // Pick the value for a cell
-    //function fillCell(cell) {
-    //   if (cell.value === "blank") {
-    //        cell.value = currentPlayer === 1 ? "X" : "O";
-    //        changePlayer();
-    //        drawBoard();
-    //    } else {
-    //        console.log("Cell already filled, try another.")
-    //   }
-    //}
 
     // Draw the board for the game
     function drawBoard() {
@@ -73,6 +61,7 @@ function GameController() {
         console.log(visualBoard);
     }
 
+    // Pick let the player pick a cell based on coordinates
     function pickCell(x, y) {
         let row = board.gameboard[y-1];
         let cell = row[x-1];
@@ -82,6 +71,7 @@ function GameController() {
             cell.changeValue(currentPlayer === 1 ? "X" : "O");
             changePlayer();
             drawBoard();
+            lookForWin();   
 
         } else {
 
@@ -89,6 +79,51 @@ function GameController() {
 
         }
         
+    }
+
+    function lookForWin() {
+        const validRow = validRowCombo();
+
+        if (validRow) {
+            if (validRow === "X") {
+                console.log("Player 1 wins!");
+            } else {
+                console.log("Player 2 wins!");
+            }
+            
+        }
+    }
+
+    function validRowCombo() {
+
+        for (let i = 0; i < board.gameboard.length; i++) {
+            const row = board.gameboard[i];
+            let counterX = 0;
+            let counterO = 0;
+
+            for (let j = 0; j < row.length; j++) {
+                if (row[j].getValue() === "X") {
+                    ++counterX;
+                } else if (row[j].getValue() === "O") {
+                    ++counterO
+                }
+            }
+
+            if (counterX === 3 || counterO === 3) {
+                return row[0].getValue();
+            }
+
+        }
+
+        return false;
+    }
+
+    function validColumnCombo() {
+
+    }
+
+    function validDiagonalCombo() {
+
     }
 
     drawBoard();
