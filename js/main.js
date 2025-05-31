@@ -86,6 +86,7 @@ function GameController() {
         const validRow = validRowCombo();
         const validCol = validColumnCombo();
         const validDiag = validDiagonalCombo();
+        const checkTie = tie();
 
         if (validRow || validCol || validDiag) {
             if (validRow === "X") {
@@ -106,7 +107,12 @@ function GameController() {
                 console.log("Player 2 wins!");
             }
             
+        } else {
+            if (checkTie) {
+                console.log("Tie!")
+            }
         }
+        
     }
 
     // Evaluate pattern for each row and determine if there is a winner. If so, return winner
@@ -199,6 +205,27 @@ function GameController() {
 
         return returnValue;
         
+    }
+
+    function tie() {
+        let counter = 0;
+        const arr = board.gameboard;
+
+        for (let i = 0; i < arr.length; i++) {
+            
+            for (let j = 0; j < arr.length; j++) {
+                if (arr[i][j].getValue() !== "blank") {
+                    ++counter;
+                }
+            }
+
+        }
+
+        if (counter === 9) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // Draw the board
