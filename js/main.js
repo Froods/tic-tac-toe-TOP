@@ -249,12 +249,35 @@ function GameController() {
 
 function DisplayGame() {
 
-    const board = Gameboard();
-    const elBoard = document.querySelector(".gameboard");
-    const elPage = document.querySelector(".page");
-    const controller = GameController();
     let curPlayer = 1;
+    let p1Name = "Player 1";
+    let p2Name = "Player 2";
 
+    const board = Gameboard();
+    let controller = GameController();
+
+    let elBoard = document.querySelector(".gameboard");
+    const elPage = document.querySelector(".page");
+    const elSubmit = document.querySelector(".submit");
+    const elAgain = document.querySelector(".again")
+
+    elSubmit.addEventListener("click", () => {
+        const elPlayer1Name = document.querySelector("#player-1");
+        const elPlayer2Name = document.querySelector("#player-2");
+
+        if (elPlayer1Name.value) {
+            p1Name = elPlayer1Name.value;
+        }
+
+        if (elPlayer2Name.value) {
+            p2Name = elPlayer2Name.value;
+        }
+    });
+
+    elAgain.addEventListener("click", () => {
+        reset();
+    });
+    
     function display() {
         let counter = 0;
 
@@ -286,7 +309,6 @@ function DisplayGame() {
             curPlayer = curPlayer === 1 ? 2 : 1;
             
             displayWin();
-
             }
 
         });
@@ -315,19 +337,34 @@ function DisplayGame() {
     function displayWin() {
             if (controller.getWinner() === 1) {
                 const winnerText = document.querySelector(".winner");
-                winnerText.textContent = "Player 1 wins!"
+                winnerText.textContent = `${p1Name} wins!`;
             }
 
             if (controller.getWinner() === 2) {
                 const winnerText = document.querySelector(".winner");
-                winnerText.textContent = "Player 2 wins!"
+                winnerText.textContent = `${p2Name} wins!`;
             }
 
             if (controller.getWinner() === 3) {
                 const winnerText = document.querySelector(".winner");
-                winnerText.textContent = "Tie!"
+                winnerText.textContent = "Tie!";
             }
 
+        }
+
+        function reset() {
+            elPage.removeChild(elBoard);
+            elBoard = document.createElement("div")
+            elBoard.classList.add("gameboard");
+            
+            const elWinnerText= document.querySelector(".winner");
+            elWinnerText.textContent = "";
+
+            controller = undefined;
+            controller = GameController();
+
+            elPage.insertBefore(elBoard, elWinnerText);
+            display();
         }
 
     return { display }
