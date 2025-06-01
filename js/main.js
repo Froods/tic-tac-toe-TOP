@@ -63,8 +63,8 @@ function GameController() {
 
     // Pick let the player pick a cell based on coordinates
     function pickCell(x, y) {
-        let row = board.gameboard[y-1];
-        let cell = row[x-1];
+        let row = board.gameboard[y];
+        let cell = row[x];
         
         if (cell.getValue() === "blank") {
 
@@ -231,9 +231,76 @@ function GameController() {
     // Draw the board
     drawBoard();
 
-    return { pickCell }
+    return { pickCell, currentPlayer }
 
+}
+
+function DisplayGame() {
+
+    const board = Gameboard();
+    const elBoard = document.querySelector(".gameboard");
+    const controller = GameController();
+    let curPlayer = 1;
+
+    function display() {
+        let counter = 0;
+
+        for (let i = 0; i < board.gameboard.length; i++) {
+            const row = board.gameboard[i];
+
+            for (let j = 0; j < row.length; j++) {
+                const cell = document.createElement("div");
+                cell.classList.add("cell", `cell-${j.toString()+i.toString()}`);
+                cellSelectListen(cell);
+                ++counter;
+                elBoard.appendChild(cell);
+            }
+        }
+    }
+
+    function cellSelectListen(cell) {
+        cell.addEventListener("click", () => {
+
+            if (!cell.classList.contains("picked")) {
+
+            let className = cell.className;
+            let xy = className.slice(10);
+            let x = xy[0];
+            let y = xy[1];
+
+            fillCell(cell);
+            controller.pickCell(x,y);
+            curPlayer = curPlayer === 1 ? 2 : 1;
+
+            }
+
+        });
+    }
+
+    function fillCell(cell) {
+
+        if (curPlayer === 1) {
+            cell.classList.add("X", "picked");
+            const x = document.createElement("img");
+            x.setAttribute("src", "images/X.svg");
+            x.setAttribute("height", "180");
+            cell.appendChild(x);
+        }
+
+        if (curPlayer === 2) {
+            cell.classList.add("O", "picked");
+            const o = document.createElement("img");
+            o.setAttribute("src", "images/O.svg");
+            o.setAttribute("height", "135");
+            cell.appendChild(o);
+        }
+
+    }
+
+    return { display }
 }
 
 const board = GameController();
 
+const visBoard = DisplayGame();
+visBoard.display();
