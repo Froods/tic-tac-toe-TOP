@@ -240,16 +240,19 @@ function GameController() {
         return winner;
     }
 
+    function curPlayer() {
+        return currentPlayer;
+    }
+
     // Draw the board
     drawBoard();
 
-    return { pickCell, currentPlayer, getWinner }
+    return { pickCell, curPlayer, getWinner }
 
 }
 
 function DisplayGame() {
 
-    let curPlayer = 1;
     let p1Name = "Player 1";
     let p2Name = "Player 2";
 
@@ -306,7 +309,6 @@ function DisplayGame() {
 
             fillCell(cell);
             controller.pickCell(x,y);
-            curPlayer = curPlayer === 1 ? 2 : 1;
             
             displayWin();
             }
@@ -316,7 +318,7 @@ function DisplayGame() {
 
     function fillCell(cell) {
 
-        if (curPlayer === 1) {
+        if (controller.curPlayer() === 1) {
             cell.classList.add("X", "picked");
             const x = document.createElement("img");
             x.setAttribute("src", "images/X.svg");
@@ -324,7 +326,7 @@ function DisplayGame() {
             cell.appendChild(x);
         }
 
-        if (curPlayer === 2) {
+        if (controller.curPlayer() === 2) {
             cell.classList.add("O", "picked");
             const o = document.createElement("img");
             o.setAttribute("src", "images/O.svg");
