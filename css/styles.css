@@ -66,7 +66,7 @@ input:hover {
 }
 
 .submit {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     padding: 12px 16px;
     font-size: 16px;
     border-radius: 25px;
@@ -77,6 +77,10 @@ input:hover {
 .submit:hover {
     cursor: pointer;
     background-color: rgb(40, 40, 40);
+}
+
+.submit:active {
+    background-color: black;
 }
 
 .winner {
@@ -96,4 +100,8 @@ input:hover {
 .again:hover {
     cursor: pointer;
     background-color: rgb(40, 40, 40);
+}
+
+.again:active {
+    background-color: black;
 }
