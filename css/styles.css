@@ -1,8 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .page {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    flex-direction: column;
+
 }
 
 .gameboard {
@@ -23,4 +31,69 @@
 
 .cell:hover {
     background-color: rgb(177, 220, 255);
+}
+
+.input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.name-input {
+    display: flex;
+    margin-bottom: 16px;
+}
+.header {
+    margin: 16px;
+}
+
+input {
+    border: 2px solid black;
+    border-radius: 12px;
+    font-size: 16px;
+    padding: 0 6px;
+    width: 120px;
+}
+
+input:hover {
+    background-color: rgb(245, 245, 245);
+}
+
+.player-1,
+.player-2 {
+    margin: 8px;
+}
+
+.submit {
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    font-size: 16px;
+    border-radius: 25px;
+    background-color: black;
+    color: white;
+}
+
+.submit:hover {
+    cursor: pointer;
+    background-color: rgb(40, 40, 40);
+}
+
+.winner {
+    margin: 16px;
+    font-size: 28px;
+}
+
+.again {
+    margin-bottom: 32px;
+    padding: 14px 22px;
+    font-size: 22px;
+    border-radius: 40px;
+    background-color: black;
+    color: white;
+}
+
+.again:hover {
+    cursor: pointer;
+    background-color: rgb(40, 40, 40);
 }

@@ -27,6 +27,7 @@ function GameController() {
 
     let currentPlayer = 1;
     let board = Gameboard();
+    let winner = 0;
 
     // Change the player
     function changePlayer() {
@@ -91,25 +92,32 @@ function GameController() {
         if (validRow || validCol || validDiag) {
             if (validRow === "X") {
                 console.log("Player 1 wins!");
+                winner = 1;
             } else if (validRow === "O") {
                 console.log("Player 2 wins!");
+                winner = 2;
             }
 
             if (validCol === "X") {
                 console.log("Player 1 wins!");
+                winner = 1;
             } else if (validCol === "O") {
                 console.log("Player 2 wins!");
+                winner = 2;
             }
 
             if (validDiag === "X") {
                 console.log("Player 1 wins!");
+                winner = 1;
             } else if (validDiag === "O") {
                 console.log("Player 2 wins!");
+                winner = 2;
             }
             
         } else {
             if (checkTie) {
                 console.log("Tie!")
+                winner = 3;
             }
         }
         
@@ -228,10 +236,14 @@ function GameController() {
         }
     }
 
+    function getWinner() {
+        return winner;
+    }
+
     // Draw the board
     drawBoard();
 
-    return { pickCell, currentPlayer }
+    return { pickCell, currentPlayer, getWinner }
 
 }
 
@@ -239,6 +251,7 @@ function DisplayGame() {
 
     const board = Gameboard();
     const elBoard = document.querySelector(".gameboard");
+    const elPage = document.querySelector(".page");
     const controller = GameController();
     let curPlayer = 1;
 
@@ -271,6 +284,8 @@ function DisplayGame() {
             fillCell(cell);
             controller.pickCell(x,y);
             curPlayer = curPlayer === 1 ? 2 : 1;
+            
+            displayWin();
 
             }
 
@@ -296,6 +311,24 @@ function DisplayGame() {
         }
 
     }
+
+    function displayWin() {
+            if (controller.getWinner() === 1) {
+                const winnerText = document.querySelector(".winner");
+                winnerText.textContent = "Player 1 wins!"
+            }
+
+            if (controller.getWinner() === 2) {
+                const winnerText = document.querySelector(".winner");
+                winnerText.textContent = "Player 2 wins!"
+            }
+
+            if (controller.getWinner() === 3) {
+                const winnerText = document.querySelector(".winner");
+                winnerText.textContent = "Tie!"
+            }
+
+        }
 
     return { display }
 }
